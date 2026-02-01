@@ -1,23 +1,36 @@
-#include <iostream>
-#include <ostream>
-#include <unistd.h>
-
 #include "Data/Gamestate.h"
+#include "Display/Display.h"
 
-int main() {
-    std::pair<uint,uint> initialLives[5];
-    initialLives[0] = {1, 0};
-    initialLives[1] = {2, 1};
-    initialLives[2] = {0, 2};
-    initialLives[3] = {1, 2};
-    initialLives[4] = {2, 2};
 
-    Gamestate gamestate = Gamestate(initialLives, 5);
+int main(int argc, char* args[]) {
+    Uint32 lastUpdate = 0;
+    const Uint32 simulationSpeed = 10;
 
-    for (int i = 0; i < 100; i++) {
-        gamestate.printGamestate();
-        gamestate.calculatedNextGrid();
-        gamestate.updateGrid();
-        std::cin.get();
+    int sizeFactor = 10;
+
+    Gamestate gamestate = Gamestate();
+
+    Display display = Display(outerMatrixSize*sizeFactor,innerMatrixSize*sizeFactor,sizeFactor);
+
+
+    bool quit = false;
+    SDL_Event event;
+
+    while (!quit) {
+        while ( SDL_PollEvent(&event) != 0) {
+            if (event.type == SDL_QUIT) {
+                quit = true;
+            }
+        }
+        Uint32 currentTick = SDL_GetTicks();
+
+        if (currentTick - lastUpdate >= simulationSpeed) {
+            gamestate.calculatedNextGrid();
+            gamestate.updateGrid();
+            display.renderFrame(gamestate);
+
+            lastUpdate = currentTick;
+        }
+        SDL_Delay(1);
     }
 }

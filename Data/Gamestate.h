@@ -3,8 +3,8 @@
 #include <utility>
 #include <sys/types.h>
 
-const uint outerMatrixSize = 10;
-const uint innerMatrixSize = 10;
+const uint outerMatrixSize = 192;
+const uint innerMatrixSize = 108;
 
 
 class Gamestate {
@@ -14,10 +14,13 @@ class Gamestate {
 
     public:
         Gamestate(std::pair<uint,uint>[], uint);
+        Gamestate();
         bool updateGrid();
         uint countNeighbors(uint outer, uint inner);
         bool calculatedNextGrid();
         void printGamestate();
+        bool getCell(uint outer, uint inner) const;
+        void randomize();
 };
 
 

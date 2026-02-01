@@ -16,6 +16,10 @@ Gamestate::Gamestate(std::pair<uint,uint> initialLives[], uint numberOfPairs) : 
     }
 }
 
+Gamestate::Gamestate() {
+    randomize();
+}
+
 bool Gamestate::updateGrid() {
     std::memcpy(currentGrid, nextGrid, sizeof(currentGrid));
     return true;
@@ -66,5 +70,22 @@ void Gamestate::printGamestate() {
             std::cout << currentGrid[i][j];
         }
         std::cout<<"\n";
+    }
+}
+
+bool Gamestate::getCell(uint outer, uint inner) const {
+    if ( outer >= outerMatrixSize || inner >= innerMatrixSize) {
+        return false;
+    } else {
+        return currentGrid[outer][inner];
+    }
+}
+
+void Gamestate::randomize() {
+    for (uint i = 0; i < outerMatrixSize; i++) {
+        for (uint j = 0; j < innerMatrixSize; j++) {
+            bool alive = (std::rand() % 100) < 15;
+            currentGrid[i][j] = alive;
+        }
     }
 }
