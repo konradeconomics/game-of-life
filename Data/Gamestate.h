@@ -14,10 +14,12 @@ class Gamestate {
 
     public:
         Gamestate(std::pair<uint,uint>[], uint);
-        Gamestate();
+        Gamestate(bool random);
         bool updateGrid();
         uint countNeighbors(uint outer, uint inner);
         bool calculatedNextGrid();
+        void fillCell(uint outer, uint inner);
+        void emptyCell(uint outer, uint inner);
         void printGamestate();
         bool getCell(uint outer, uint inner) const;
         void randomize();

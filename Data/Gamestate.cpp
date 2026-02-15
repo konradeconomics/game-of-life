@@ -16,8 +16,10 @@ Gamestate::Gamestate(std::pair<uint,uint> initialLives[], uint numberOfPairs) : 
     }
 }
 
-Gamestate::Gamestate() {
-    randomize();
+Gamestate::Gamestate(bool random) : currentGrid{}, nextGrid{} {
+    if (random) {
+        randomize();
+    }
 }
 
 bool Gamestate::updateGrid() {
@@ -62,6 +64,14 @@ bool Gamestate::calculatedNextGrid() {
         }
     }
     return true;
+}
+
+void Gamestate::fillCell(uint outer, uint inner) {
+    currentGrid[outer][inner] = true;
+}
+
+void Gamestate::emptyCell(uint outer, uint inner) {
+    currentGrid[outer][inner] = false;
 }
 
 void Gamestate::printGamestate() {
